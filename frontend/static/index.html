@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Play Frontend</title>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <h1>Hello from Play-Frontend!</h1>
+        <button id="fetch-btn" style="padding: 12px; cursor: pointer;">Fetch Me!</button>
+    </div>
+    <div style="margin:10px">
+        <hr />
+    </div>
+    <pre id="json-data" style="background: black; color: white;"></pre>
+
+    <script type="text/javascript">
+        const btnEl = document.querySelector('#fetch-btn');
+        const jsonDataEl = document.querySelector('#json-data');
+        btnEl.addEventListener('click', async () => {
+            try {
+                const res = await fetch('http://localhost:8000/api/user');
+                const body = await res.json();
+                jsonDataEl.innerHTML = JSON.stringify(body, undefined, 2);
+                jsonDataEl.style.padding = '16px';
+            } catch (err) {
+                const error = {
+                    message: err.message || 'unknown_error',
+                    stack: err.stack || ''
+                }
+                jsonDataEl.innerHTML = `Error: ${JSON.stringify(error, undefined, 2)}`;
+                jsonDataEl.style.background = 'rgb(255 0 0 / 85%)';
+                jsonDataEl.style.padding = '16px';
+                console.error('[fetch] error:', err)
+            }
+        })
+    </script>
+</body>

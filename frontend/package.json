@@ -1,0 +1,13 @@
+{
+    "name": "play-frontend",
+    "description": "description",
+    "authors": "author",
+    "version": "1.0.0",
+    "main": "app.js",
+    "license": "MIT",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "koa": "2.13.1",
+        "koa-static": "5.0.0"
+    }
+}

@@ -1,0 +1,17 @@
+version: '3'
+services:
+  play-nginx:
+    image: nginx
+    volumes:
+      - ./nginx/public/:/usr/share/nginx/html/
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    restart: always
+    ports:
+      - 8000:80
+  play-backend:
+    build:
+      context: ./backend
+  play-frontend:
+    build:
+      context: ./frontend
+
