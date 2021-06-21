@@ -2,6 +2,7 @@ version: '3'
 services:
   play-nginx:
     image: nginx
+    container_name: play-nginx
     volumes:
       - ./nginx/public/:/usr/share/nginx/html/
       - ./nginx/conf.d/:/etc/nginx/conf.d/
@@ -9,8 +10,10 @@ services:
     ports:
       - 8000:80
   play-backend:
+    container_name: play-backend
     build:
       context: ./backend
   play-frontend:
+    container_name: play-frontend
     build:
       context: ./frontend

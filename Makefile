@@ -12,12 +12,12 @@ docker-stop:
 
 # jump in into nginx container
 docker-bash-nginx:
-	@docker exec -it docker-playground_play-nginx_1 /bin/bash
+	@docker exec -it play-nginx /bin/bash
 
 # tail nginx log stdout and stderr
 docker-logs-nginx:
-	@docker logs -f docker-playground_play-nginx_1
+	@docker logs -f play-nginx
 
 # tail BE express stdout and stderr
 docker-logs-backend:
-	@docker logs -f docker-playground_play-backend_1	
+	@docker logs -f play-backend	
