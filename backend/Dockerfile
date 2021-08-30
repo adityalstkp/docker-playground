@@ -20,8 +20,8 @@ COPY .env /app/.env
 COPY package.json /app/package.json
 COPY yarn.lock /app/yarn.lock
 
-COPY ./scripts/ /app/scripts/
-RUN ["chmod", "+x", "-R", "/app/scripts/"]
+COPY ./scripts/run.sh /app/scripts/run.sh
+RUN ["chmod", "+x", "/app/scripts/run.sh"]
 
 RUN yarn
 
