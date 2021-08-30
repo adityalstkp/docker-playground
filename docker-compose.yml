@@ -1,19 +1,65 @@
 version: '3'
 services:
   play-nginx:
-    image: nginx
+    build:
+      context: ./nginx
     container_name: play-nginx
     volumes:
       - ./nginx/public/:/usr/share/nginx/html/
       - ./nginx/conf.d/:/etc/nginx/conf.d/
-    restart: always
+      - ./nginx/var/consul/:/var/consul/
+      - ./nginx/etc/consul/consul.d/:/etc/consul/consul.d/
+      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
+    depends_on:
+      - play-consul
     ports:
       - 8000:80
+    networks:
+      playnet:
+        aliases:
+          - play.nginx.local
   play-backend:
-    container_name: play-backend
     build:
       context: ./backend
+    container_name: play-backend
+    volumes:
+      - ./backend/etc/consul/consul.d/:/etc/consul/consul.d/
+      - ./backend/var/consul/:/var/consul/
+      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
+    depends_on:
+      - play-consul
+    networks:
+      playnet:
+        aliases:
+          - play.backend.local
   play-frontend:
-    container_name: play-frontend
     build:
       context: ./frontend
+    container_name: play-frontend
+    volumes:
+      - ./frontend/etc/consul/consul.d/:/etc/consul/consul.d/
+      - ./frontend/var/consul/:/var/consul/
+      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
+    depends_on:
+      - play-consul
+    networks:
+      playnet:
+        aliases:
+          - play.frontend.local
+  play-consul:
+    image: consul:1.6.2
+    container_name: play-consul
+    ports:
+      - '8500:8500'
+      - '8600:8600/udp'
+    environment:
+      - CONSUL_DISABLE_PERM_MGMT=
+    command: agent -server -ui -bind 0.0.0.0 -client 0.0.0.0 -bootstrap-expect=1
+    networks:
+      playnet:
+        aliases:
+          - consul.play.local
+
+networks:
+  playnet:
+    driver: bridge

@@ -1,0 +1,9 @@
+upstream play-backend {
+  least_conn;
+  {{ $servers := service "play-backend" }}
+  {{ $length := len $servers }}
+  {{ if eq $length 0 }} server localhost:7778;
+  {{ end }}
+  {{ range $servers }} server {{.Address}}:{{.Port}};
+  {{ end }}
+}

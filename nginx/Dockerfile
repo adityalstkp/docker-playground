@@ -1,7 +1,8 @@
-FROM node:10-alpine
+FROM nginx
 
-RUN apk update && apk add bash && \
-    apk add curl && apk add unzip
+# install unzip & dns utils
+RUN apt-get update && apt-get install -y unzip && \
+    apt-get install -y dnsutils
 
 # setting a default value to make it work on dockerhub
 ENV CONSUL_TEMPLATE_VERSION=0.15.0
@@ -13,23 +14,10 @@ RUN curl https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSIO
     curl https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_amd64.zip > /tmp/consul.zip && \
     unzip /tmp/consul.zip -d /usr/bin
 
+COPY ./scripts/ /scripts/
 
-WORKDIR /app
+RUN ["chmod", "+x", "-R", "/scripts/"]
 
-# rule of thumb, if less frequent for changes put it up here
-COPY .env /app/.env
-COPY package.json /app/package.json
-COPY yarn.lock /app/yarn.lock
-COPY static /app/static
+ENTRYPOINT ["/scripts/run.sh"]
 
-COPY ./scripts/ /app/scripts/
-RUN ["chmod", "+x", "-R", "/app/scripts/"]
-
-RUN yarn
-
-COPY app.js /app/app.js
-COPY config.js /app/config.js
-
-ENTRYPOINT ["sh","/app/scripts/run.sh"]
-
-CMD ["node", "app.js"]
+CMD ["nginx", "-g", "daemon off;"]

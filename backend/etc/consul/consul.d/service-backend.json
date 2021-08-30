@@ -1,0 +1,15 @@
+{
+    "service": {
+        "name": "play-backend",
+        "port": 3000,
+        "address": "play.backend.local",
+        "checks": [
+            {
+                "interval": "5s",
+                "name": "nodejs checks",
+                "tcp": "127.0.0.1:3000"
+            }
+        ],
+        "tags": []
+    }
+}
