@@ -14,10 +14,12 @@ RUN curl https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSIO
     curl https://releases.hashicorp.com/consul/1.6.2/consul_1.6.2_linux_amd64.zip > /tmp/consul.zip && \
     unzip /tmp/consul.zip -d /usr/bin
 
-COPY ./scripts/ /scripts/
+COPY ./var/consul/config /var/consul/config/
+COPY ./var/consul/template /var/consul/template/
+COPY ./scripts/ /etc/scripts/
 
-RUN ["chmod", "+x", "-R", "/scripts/"]
+RUN ["chmod", "+x", "-R", "/etc/scripts/"]
 
-ENTRYPOINT ["/scripts/run.sh"]
+ENTRYPOINT ["/etc/scripts/run.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]

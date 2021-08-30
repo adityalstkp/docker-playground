@@ -1,6 +1,3 @@
 node_modules
 .tern-project
 nginx/conf.d/upstream.*.conf
-checkpoint-signature
-node-id
-serf/

@@ -1,3 +1,9 @@
+#!/bin/bash
+
+NAME=$1
+ADDR=$(hostname)
+
+cat  << EOF
 {
     "acl": {
         "default_policy": "allow",
@@ -27,7 +33,7 @@
     "enable_local_script_checks": false,
     "enable_script_checks": false,
     "log_level": "ERR",
-    "node_name": "play-frontend",
+    "node_name": "$NAME-$ADDR",
     "performance": {
         "leave_drain_time": "10s",
         "raft_multiplier": 3,
@@ -43,3 +49,4 @@
     "syslog_facility": "local0",
     "ui": false
 }
+EOF

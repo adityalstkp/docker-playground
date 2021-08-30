@@ -1,15 +1,23 @@
+#!/bin/bash
+
+NAME=$1
+PORT=$2
+ADDR=$(hostname)
+
+cat  << EOF
 {
     "service": {
-        "name": "play-backend",
-        "port": 3000,
-        "address": "play.backend.local",
+        "name": "$NAME",
+        "port": $PORT,
+        "address": "$ADDR",
         "checks": [
             {
                 "interval": "5s",
                 "name": "nodejs checks",
-                "tcp": "127.0.0.1:3000"
+                "tcp": "127.0.0.1:80"
             }
         ],
         "tags": []
     }
 }
+EOF

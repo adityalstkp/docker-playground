@@ -7,9 +7,7 @@ services:
     volumes:
       - ./nginx/public/:/usr/share/nginx/html/
       - ./nginx/conf.d/:/etc/nginx/conf.d/
-      - ./nginx/var/consul/:/var/consul/
-      - ./nginx/etc/consul/consul.d/:/etc/consul/consul.d/
-      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
+      - ./scripts/:/scripts/
     depends_on:
       - play-consul
     ports:
@@ -23,9 +21,7 @@ services:
       context: ./backend
     container_name: play-backend
     volumes:
-      - ./backend/etc/consul/consul.d/:/etc/consul/consul.d/
-      - ./backend/var/consul/:/var/consul/
-      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
+      - ./scripts/:/scripts/
     depends_on:
       - play-consul
     networks:
@@ -37,9 +33,7 @@ services:
       context: ./frontend
     container_name: play-frontend
     volumes:
-      - ./frontend/etc/consul/consul.d/:/etc/consul/consul.d/
-      - ./frontend/var/consul/:/var/consul/
-      - ./scripts/wait-for-it.sh:/scripts/wait-for-it.sh
+      - ./scripts/:/scripts/
     depends_on:
       - play-consul
     networks:
