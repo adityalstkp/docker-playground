@@ -4,6 +4,6 @@ upstream play-backend {
   {{ $length := len $servers }}
   {{ if eq $length 0 }} server localhost:7778;
   {{ end }}
-  {{ range $servers }} server {{.Address}};
+  {{ range $servers }} server {{.Address}}:{{.Port}};
   {{ end }}
 }
