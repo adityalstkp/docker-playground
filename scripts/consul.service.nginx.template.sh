@@ -13,8 +13,8 @@ cat  << EOF
         "checks": [
             {
                 "interval": "5s",
-                "name": "nodejs checks",
-                "tcp": "127.0.0.1:80"
+                "name": "nginx checks",
+                "tcp": "127.0.0.1:$PORT"
             }
         ],
         "tags": []

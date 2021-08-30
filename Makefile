@@ -1,7 +1,12 @@
 DATE=$(shell date)
 
+# cleanup
+clean:
+	@echo "[${DATE}] - cleaning..."
+	@rm nginx/conf.d/upstream.*.conf || exit 0
+
 # for start docker
-docker-start:
+docker-start: clean
 	@echo "[${DATE}] - starting..."
 	@docker-compose -f ./docker-compose.yml up -d --build
 
