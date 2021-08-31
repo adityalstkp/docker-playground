@@ -3,16 +3,27 @@ DATE=$(shell date)
 # cleanup
 clean:
 	@echo "[${DATE}] - cleaning..."
-	@rm nginx/conf.d/upstream.*.conf || exit 0
+ifneq (,$(wildcard nginx/conf.d/upstream.*.conf))
+	@rm nginx/conf.d/upstream.*.conf
+endif
+	
+# start
+start: docker-start
+	@echo "[${DATE}] - started"
+	@open http://localhost:8500
+
+# stop
+stop: docker-stop clean 
+	@echo "[${DATE}] - all stopped"
 
 # for start docker
 docker-start: clean
-	@echo "[${DATE}] - starting..."
+	@echo "[${DATE}] - start docker..."
 	@docker-compose -f ./docker-compose.yml up -d --build
 
 # for stop docker
 docker-stop:
-	@echo "[${DATE}] - shutting down..."
+	@echo "[${DATE}] - shutting down docker..."
 	@docker-compose down
 
 # jump in into nginx container
